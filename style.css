@@ -1,0 +1,16 @@
+body{
+    background-color: green;
+    text-align: center;
+    color: white;
+}
+
+h1{
+    color: black;
+}
+
+h2{
+    color: red;
+}
+p{
+    text-align: left;
+}
