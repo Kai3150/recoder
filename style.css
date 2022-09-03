@@ -1,16 +1,21 @@
 body{
     background-color: green;
+}
+body > p{
     text-align: center;
     color: white;
 }
 
-h1{
+h1, h3{
+    text-align: center;
     color: black;
 }
 
 h2{
+    text-align: center;
     color: red;
 }
 p{
-    text-align: left;
+    margin: 0 auto;
+    max-width: 800px;
 }
