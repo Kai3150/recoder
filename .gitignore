@@ -9,3 +9,5 @@ env
 .ipynb_checkpoints
 wikipedia-preview
 *.json
+*.jpg
+*.png
