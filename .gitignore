@@ -2,8 +2,6 @@
 *.mp3
 *.mp4
 word2vec.*
-*.txt
-*.csv
 model.vec
 env
 .ipynb_checkpoints
