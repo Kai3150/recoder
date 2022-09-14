@@ -1,5 +1,4 @@
 .DS_Store
-*.html
 *.mp3
 *.mp4
 word2vec.*
@@ -9,3 +8,4 @@ model.vec
 env
 .ipynb_checkpoints
 wikipedia-preview
+*.json

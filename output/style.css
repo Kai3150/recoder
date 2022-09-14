@@ -1,0 +1,32 @@
+body {
+    background-color: black;
+}
+
+body>div>p {
+    text-align: center;
+    color: white;
+}
+
+h1,
+h3 {
+    text-align: center;
+    color: orange;
+}
+
+h2 {
+    text-align: center;
+    color: red;
+}
+
+p {
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+.see {
+    color: blue;
+}
+
+.more {
+    background-color: green;
+}
