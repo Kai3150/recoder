@@ -126,6 +126,7 @@
                 }, 200);
             });
             const clickEventType = ((window.ontouchstart !== null) ? 'click' : 'touchstart');
+            const hoverEventType = ((window.ontouchstart !== null) ? 'click' : 'hover');
 
             camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
             camera.position.z = 3000;
@@ -207,7 +208,7 @@
                         onDocumentMouseDown();
                     }
                 });
-                element.addEventListener(clickEventType, function () {
+                element.addEventListener(hoverEventType, function () {
                     if (myConfObj.iframeMouseOver) {
                         onDocumentMouseDown();
                     }
