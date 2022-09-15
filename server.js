@@ -13,6 +13,13 @@ mongoose.connect("mongodb+srv://kai:Kkkh3150@cluster0.4mb3bi1.mongodb.net/?retry
     .catch((err) => console.log(err));
 
 
+app.get('/', function (req, res, next) {
+    res.sendFile(path.join(__dirname, 'output/public/top/index.html'));
+})
+
+app.get('/index.html', function (req, res, next) {
+    res.sendFile(path.join(__dirname, 'output/public/top/index.html'));
+})
 
 // get imgメソッド
 app.get("/api/v1/imgs", async (req, res) => {
