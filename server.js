@@ -61,6 +61,6 @@ app.post('/upload', upload.array('files'), async (req, res, next) => {
     }
 })
 
-let server = app.listen(3000, function () {
+let server = app.listen(process.env.PORT || 3000, function () {
     console.log("listening at port %s", server.address().port);
 });
