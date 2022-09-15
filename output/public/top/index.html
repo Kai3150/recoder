@@ -117,7 +117,6 @@
             //レスポンシブ用
             let isScrolling = 0;
             let timeoutId;
-
             window.addEventListener("onscroll", function () {
                 isScrolling = 1;
                 // スクロールを停止して200ms後に終了とする
@@ -208,6 +207,11 @@
                         onDocumentMouseDown();
                     }
                 });
+                element.addEventListener(clickEventType, function () {
+                    if (myConfObj.iframeMouseOver) {
+                        onDocumentMouseDown();
+                    }
+                });
 
                 iframe.addEventListener('mouseover', function () {
                     myConfObj.iframeMouseOver = true;
@@ -277,7 +281,7 @@
             for (let i = 0, l = objects.length; i < l; i++) {
 
                 const theta = i * 0.6 + Math.PI;
-                const y = - (i * 50) + 500;
+                const y = - (i * 50) - 0;
 
                 const object = new THREE.Object3D();
 
@@ -440,7 +444,7 @@
             new TWEEN.Tween(camera.position)
                 .to({
                     x: 0,
-                    y: 1000,
+                    y: 500,
                     z: -3000
                 }, duration)
                 .easing(TWEEN.Easing.Exponential.InOut)
