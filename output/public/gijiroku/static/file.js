@@ -62,6 +62,37 @@ dropZone.addEventListener('drop', function(e) {
     }
 }, false);
 
+
+formDOM.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const files = fileInput.files;
+    const formData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i]);
+    }
+
+    const action = formDOM.getAttribute("action")
+    const options = {
+        method: 'POST',
+        headers: new Headers({
+            "htmlname": htmlName,
+            "imgname": imgName,
+            "imgtype": imgType
+        }),
+        body: formData,
+    }
+    fetch(action, options).then((e) => {
+        if (e.status === 200) {
+            alert("保存しました。")
+            return
+        }
+        alert("保存できませんでした。")
+    })
+    preview.innerHTML = "";
+    getImages2();
+});
+
 function previewFile(file) {
     /* FileReaderで読み込み、プレビュー画像を表示。 */
     let fr = new FileReader();
@@ -69,7 +100,7 @@ function previewFile(file) {
     fr.onload = function() {
         let img = document.createElement('img');
         img.setAttribute('src', fr.result);
-        img.style.width = ``
+        img.style.width = ''
         preview.appendChild(img);
     };
 }
@@ -80,7 +111,6 @@ const getImages = async () => {
         let imgs = await axios.get("/api/v1/imgs", {
             params: {
                 // ファイル名をつける
-                //htmlName: 'sample.html'
                 htmlName: window.location.href.split('/').pop()
             }
         });
@@ -124,34 +154,5 @@ const getImages2 = async () => {
     });
 };
 
-getImages2()
 
-formDOM.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const files = fileInput.files;
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-        formData.append('files', files[i]);
-    }
-
-    const action = formDOM.getAttribute("action")
-    const options = {
-        method: 'POST',
-        headers: new Headers({
-            "htmlname": htmlName,
-            "imgname": imgName,
-            "imgtype": imgType
-        }),
-        body: formData,
-    }
-    fetch(action, options).then((e) => {
-        if (e.status === 200) {
-            alert("保存しました。")
-            return
-        }
-        alert("保存できませんでした。")
-    })
-    preview.innerHTML = "";
-    getImages2();
-});
+getImages2();

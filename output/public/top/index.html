@@ -107,20 +107,37 @@
 
         let camera, scene, renderer;
         let controls;
-
         const objects = [];
         const targets = { table: [], sphere: [], helix: [], grid: [] };
 
-        init();
+        await init();
         animate();
 
-        function init() {
+        async function init() {
+            //レスポンシブ用
+            let isScrolling = 0;
+            let timeoutId;
+
+            window.addEventListener("onscroll", function () {
+                isScrolling = 1;
+                // スクロールを停止して200ms後に終了とする
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(function () {
+                    isScrolling = 0;
+                }, 200);
+            });
+            const clickEventType = ((window.ontouchstart !== null) ? 'click' : 'touchend');
+
             camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
             camera.position.z = 3000;
 
             scene = new THREE.Scene();
 
-            for (let index = 0; index < 15; index++) {
+            const files =await fetch("/api/files", { method: 'GET' });
+            const json = await files.json();
+
+            for (let index = 0; index < 5; index++) { //かさまし
+            for (const item in json) {
                 const element = document.createElement('div');
                 element.className = 'element';
                 element.style.width = '50%';
@@ -128,11 +145,12 @@
                 element.style.padding = '1%';
                 element.style.backgroundColor = 'rgba(0,127,127,' + (Math.random() * 0.5 + 0.25) + ')';
 
+
                 const iframe = document.createElement('iframe');
                 iframe.style.width = '100%';
                 iframe.style.height = '100%';
                 iframe.allowFullscreen = true;
-                iframe.src = "/gijiroku/sample.html";
+                iframe.src = "/gijiroku/" + json[item];
                 iframe.position = "absolute";
 
                 const div = document.createElement('div');
@@ -155,12 +173,11 @@
                 a.style.verticalAlign = "middle";
                 div.appendChild(a);
 
-
                  // ------------------------------------------------------------
                 // リクエストボタンをクリックすると実行されるイベント
                 // ------------------------------------------------------------
                 let click_count = 0;
-                div.addEventListener("click", function (e) {
+                div.addEventListener(clickEventType, function (e) {
                     if (click_count % 2 == 0) {
                         // エレメントをフルスクリーン表示する
                         ElementRequestFullscreen(element);
@@ -175,9 +192,7 @@
                 });
 
 
-
                 element.appendChild(div);
-
                 element.appendChild(iframe);
 
                 const objectCSS = new CSS3DObject(element);
@@ -205,7 +220,7 @@
                 function onDocumentMouseDown() {
                     let targetDirection = new THREE.Vector3();
                     objectCSS.getWorldDirection(targetDirection)
-                    const duration = 1000
+                    const duration = 500
 
                     // オブジェクトの姿勢と同機させる
                     new TWEEN.Tween(camera.up)
@@ -214,7 +229,7 @@
                             y: objectCSS.up.y,
                             z: objectCSS.up.z
                         }, duration)
-                        .easing(TWEEN.Easing.Exponential.InOut)
+                        .easing(TWEEN.Easing.Quadratic.Out)
                         .start();
 
                     //オブジェクトの正面にカメラを配置
@@ -227,19 +242,19 @@
                         .easing(TWEEN.Easing.Exponential.InOut)
                         .start();
 
-                    //カメラの代替の位置
+                    //カメラの位置
                     new TWEEN.Tween(camera.position)
                         .to({
                             x: objectCSS.position.x + targetDirection.x * 1000,
                             y: objectCSS.position.y + targetDirection.y * 1000,
                             z: objectCSS.position.z + targetDirection.z * 1000
                         }, duration)
-                        .easing(TWEEN.Easing.Exponential.InOut)
+                        .easing(TWEEN.Easing.Quadratic.Out)
                         .start();
                 };
                 objects.push(objectCSS);
             }
-
+            }
             // sphere
             const vector = new THREE.Vector3();
             for (let i = 0, l = objects.length; i < l; i++) {
@@ -303,29 +318,27 @@
             controls.addEventListener('change', render);
 
             const buttonSphere = document.getElementById('sphere');
-            buttonSphere.addEventListener('click', function () {
+            buttonSphere.addEventListener(clickEventType, function () {
                 transform(targets.sphere, 2000);
+                camera_init_sphere();
             });
 
             const buttonHelix = document.getElementById('helix');
-            buttonHelix.addEventListener('click', function () {
+            buttonHelix.addEventListener(clickEventType, function () {
                 transform(targets.helix, 2000);
+                camera_init_herix();
             });
 
             const buttonGrid = document.getElementById('grid');
-            buttonGrid.addEventListener('click', function () {
+            buttonGrid.addEventListener(clickEventType, function () {
                 transform(targets.grid, 2000);
+                camera_init_grid()
             });
             transform(targets.helix, 2000);
+            camera_init_herix(2000);
 
             //
             window.addEventListener('resize', onWindowResize);
-
-
-            window.addEventListener('wheel', function () {
-                console.log('HHH');
-            });
-
 
 
             // ------------------------------------------------------------
@@ -369,7 +382,6 @@
                 }
                 return false;
             }
-
         }
 
         function transform(targets, duration) {
@@ -413,7 +425,72 @@
             renderer.render(scene, camera);
         }
 
+        function camera_init_herix(duration=2000) {
+            //オブジェクトの正面にカメラを配置
+            new TWEEN.Tween(controls.target)
+                .to({
+                    x: 0,
+                    y: 0,
+                    z: 0
+                }, duration)
+                .easing(TWEEN.Easing.Exponential.InOut)
+                .start();
+
+            //カメラの位置
+            new TWEEN.Tween(camera.position)
+                .to({
+                    x: 0,
+                    y: 1000,
+                    z: -3000
+                }, duration)
+                .easing(TWEEN.Easing.Exponential.InOut)
+                .start();
+        }
+        function camera_init_sphere(duration=2000) {
+            //オブジェクトの正面にカメラを配置
+            new TWEEN.Tween(controls.target)
+                .to({
+                    x: 0,
+                    y: 0,
+                    z: 0
+                }, duration)
+                .easing(TWEEN.Easing.Exponential.InOut)
+                .start();
+
+            //カメラの位置
+            new TWEEN.Tween(camera.position)
+                .to({
+                    x: -3000,
+                    y: 1000,
+                    z: -2000
+                }, duration)
+                .easing(TWEEN.Easing.Exponential.InOut)
+                .start();
+        }
+        function camera_init_grid(duration=2000) {
+                //オブジェクトの正面にカメラを配置
+                new TWEEN.Tween(controls.target)
+                    .to({
+                        x: 0,
+                        y: 0,
+                        z: 0
+                    }, duration)
+                    .easing(TWEEN.Easing.Exponential.InOut)
+                    .start();
+
+                //カメラの位置
+                new TWEEN.Tween(camera.position)
+                    .to({
+                        x: 0,
+                        y: 0,
+                        z: 2000
+                    }, duration)
+                    .easing(TWEEN.Easing.Exponential.InOut)
+                    .start();
+            }
+
 
     </script>
+
 </body>
 </html>
