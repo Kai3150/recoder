@@ -13,13 +13,15 @@
         <h1>2022年09月08日の議事録</h1>
 
         <h1>画像アップロード</h1>
-        <form action="/upload" method="post" enctype="multipart/form-data">
+        <form action="/upload" method="post" enctype="multipart/form-data" class="form-img">
             <div id="drop-zone" style="border: 1px solid; padding: 30px; border-color: white;">
                 <p>ファイルをドラッグ＆ドロップもしくは</p>
                 <input type="file" name="file" id="file-input">
             </div>
-            <h2>アップロードした画像</h2>
+            <h2>プレビュー</h2>
             <div id="preview"></div>
+            <h2>アップロードした画像</h2>
+            <div id="uploaded"></div>
             <input type="submit" style="margin-top: 50px">
         </form>
 
@@ -131,9 +133,9 @@
                     だから、最終ゼミの時に2部でこんなことしようという<span class="wmf-wp-with-preview" data-wp-title="原案" data-wikipedia-preview>原案</span>をみんなに、紹介してもらって、まだ体その<span class="wmf-wp-with-preview" data-wp-title="方向" data-wikipedia-preview>方向</span>で行こうことだけは決めとかへんかったら、きっと。という報告書を書くことになるところだったんです。まいよいよ、今日発表してくれたその<span class="wmf-wp-with-preview" data-wp-title="ブラウザー" data-wikipedia-preview>ブラウザー</span>作りの件なんです。けれども、作った人しか知らない<span class="wmf-wp-with-preview" data-wp-title="喜び" data-wikipedia-preview>喜び</span>というのがあるんです。これは、作った人だけが味わえる面白さなんです。ステップ、バステップで、うまくいく<span class="wmf-wp-with-preview" data-wp-title="瞬間" data-wikipedia-preview>瞬間</span>があるんです。だから、それぞれのレベルで苦労する部分違ってくるとは思うんです。それと、やっぱり<span class="wmf-wp-with-preview" data-wp-title="コロナ" data-wikipedia-preview>コロナ</span>が結構<span class="wmf-wp-with-preview" data-wp-title="予想" data-wikipedia-preview>予想</span>外の<span class="wmf-wp-with-preview" data-wp-title="流れ" data-wikipedia-preview>流れ</span>になってるんで、もしかしたら、8月10日がリアルでなくて、<span class="wmf-wp-with-preview" data-wp-title="オンライン" data-wikipedia-preview>オンライン</span>になる可能性もあるので、そのあたりはもしかしたらことがあることは、<span class="wmf-wp-with-preview" data-wp-title="覚悟" data-wikipedia-preview>覚悟</span>はしていていただきたいと思います。もも少なくとも、蔓延そ蔓延防止措置とか、緊急事態<span class="wmf-wp-with-preview" data-wp-title="宣言" data-wikipedia-preview>宣言</span>とかが出たら、<span class="wmf-wp-with-preview" data-wp-title="絶対" data-wikipedia-preview>絶対</span>リアルではできないんで、それ出さない方針だとは思うんです。どんな仕組みになってるか、どんな<span class="wmf-wp-with-preview" data-wp-title="データ" data-wikipedia-preview>データ</span>を使ってるかことを発表してもらわないといけないので、みんな作ってる時で必死で作ってるから、どの<span class="wmf-wp-with-preview" data-wp-title="資料" data-wikipedia-preview>資料</span>を見たとか、どんな風にして、この<span class="wmf-wp-with-preview" data-wp-title="南極" data-wikipedia-preview>南極</span>を乗り越えたとかというのは、どんどんその頭の中では覚えてるけども、感動を味わった後、忘れていくことになるんやけど、残さなきゃいけない、その<span class="wmf-wp-with-preview" data-wp-title="ウェブページ" data-wikipedia-preview>ウェブページ</span>に残さなきゃいけない、その<span class="wmf-wp-with-preview" data-wp-title="制作" data-wikipedia-preview>制作</span>の<span class="wmf-wp-with-preview" data-wp-title="ノウハウ" data-wikipedia-preview>ノウハウ</span>とか、<span class="wmf-wp-with-preview" data-wp-title="ハウツー" data-wikipedia-preview>ハウツー</span>とか、そういうものは随時メモしておいて、最終ゼミの発表の時にはけじゃなくって、<span class="wmf-wp-with-preview" data-wp-title="制作" data-wikipedia-preview>制作</span><span class="wmf-wp-with-preview" data-wp-title="プロセス" data-wikipedia-preview>プロセス</span><span class="wmf-wp-with-preview" data-wp-title="全体" data-wikipedia-preview>全体</span>を<span class="wmf-wp-with-preview" data-wp-title="説明" data-wikipedia-preview>説明</span>しないといかんということを、忘れないでほしいと思います。つい<span class="wmf-wp-with-preview" data-wp-title="ブラウザー" data-wikipedia-preview>ブラウザー</span>だけ作って、発表終わりって思ってる人いるかもしれないけど、大事なのは、その<span class="wmf-wp-with-preview" data-wp-title="個人" data-wikipedia-preview>個人</span>別に<span class="wmf-wp-with-preview" data-wp-title="制作" data-wikipedia-preview>制作</span>の点末を<span class="wmf-wp-with-preview" data-wp-title="全て" data-wikipedia-preview>全て</span>明らかにした、<span class="wmf-wp-with-preview" data-wp-title="web" data-wikipedia-preview>web</span>ページをちゃんとね作って発表できるかどうか。
                 </p>
             </div>
-
-        <script src="./wikipedia-preview.development.js"></script>
-        <script src="./file.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="wikipedia-preview.development.js"></script>
+        <script src="file.js"></script>
         <script type="text/javascript">
             wikipediaPreview.init({lang: 'ja'});
         </script>

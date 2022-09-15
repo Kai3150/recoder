@@ -1,8 +1,28 @@
 const express = require('express');
 const path = require('path');
 const multer = require('multer');
-
+const mongoose = require("mongoose");
 const app = express();
+const Thread = require("./models/Thread");
+
+app.use(express.json());
+app.use(express.static(path.join(__dirname, '/')))
+app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'public/upload')))
+
+mongoose.connect("mongodb+srv://kai:Kkkh3150@cluster0.4mb3bi1.mongodb.net/?retryWrites=true&w=majority")
+    .then(() => console.log('DB connected'))
+    .catch((err) => console.log(err));
+
+// get imgメソッド
+app.get("/api/v1/imgs", async (req, res) => {
+    try {
+        const imgs = await Thread.find({htmlName: req.headers.htmlname});
+        res.status(200).json(imgs);
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -12,22 +32,28 @@ const storage = multer.diskStorage({
         cb(null, file.originalname)
     }
 })
-const upload = multer({ storage: storage })
+const upload = multer({ storage: storage });
 
-app.use(express.static(path.join(__dirname, 'public')))
-
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'sample.html')))
-app.get('/sample.html', (req, res) => res.sendFile(path.join(__dirname, 'sample.html')))
-app.get('/upload.html', (req, res) => res.sendFile(path.join(__dirname, 'public/upload.html')))
-
-app.get('/style.css', (req, res) => res.sendFile(path.join(__dirname, 'style.css')))
-app.get('/wikipedia-preview.development.js', (req, res) => res.sendFile(path.join(__dirname, 'wikipedia-preview.development.js')))
-app.get('/file.js', (req, res) => res.sendFile(path.join(__dirname, 'file.js')))
-
-app.post('/upload', upload.single('file'), function (req, res, next) {
-    res.send('ファイルのアップロードが完了しました。');
+//post メソッド
+app.post('/upload', upload.array('files'), async (req, res, next) => {
+    let search = [];
+    req.files.forEach(file => {
+        search.push({
+            htmlName: req.headers.htmlname,
+            imgName: file.originalname,
+            imgType: req.headers.imgtype
+        })
+    });
+    try {
+        const createThread = await Thread.create(search);
+        res.status(200).json(createThread);
+        console.log('new create');
+    } catch (error) {
+        res.status(200).json({});
+        console.log(error);
+    }
 })
 
-var server = app.listen(3000, function () {
+let server = app.listen(3000, function () {
     console.log("listening at port %s", server.address().port);
 });

@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>three.js css3d - periodic table</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="main.css">
+    <style>
+        a {
+            color: #8ff;
+        }
+
+        #menu {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .element {
+            width: 120px;
+            height: 160px;
+            box-shadow: 0px 0px 12px rgba(0, 255, 255, 0.5);
+            border: 1px solid rgba(127, 255, 255, 0.25);
+            font-family: Helvetica, sans-serif;
+            text-align: center;
+            line-height: normal;
+            cursor: default;
+        }
+
+        .element:hover {
+            box-shadow: 0px 0px 12px rgba(0, 255, 255, 0.75);
+            border: 1px solid rgba(127, 255, 255, 0.75);
+        }
+
+        .element .number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 12px;
+            color: rgba(127, 255, 255, 0.75);
+        }
+
+        .element .symbol {
+            position: absolute;
+            top: 40px;
+            left: 0px;
+            right: 0px;
+            font-size: 60px;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.75);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.95);
+        }
+
+        .element .details {
+            position: absolute;
+            bottom: 15px;
+            left: 0px;
+            right: 0px;
+            font-size: 12px;
+            color: rgba(127, 255, 255, 0.75);
+        }
+
+        button {
+            color: rgba(127, 255, 255, 0.75);
+            background: transparent;
+            outline: 1px solid rgba(127, 255, 255, 0.75);
+            border: 0px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: rgba(0, 255, 255, 0.5);
+        }
+
+        button:active {
+            color: #000000;
+            background-color: rgba(0, 255, 255, 0.75);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="info"><a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> css3d - periodic table.</div>
+    <div id="container"></div>
+    <div id="menu">
+        <button id="table">TABLE</button>
+        <button id="sphere">SPHERE</button>
+        <button id="helix">HELIX</button>
+        <button id="grid">GRID</button>
+    </div>
+    <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.144.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.144.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module">
+        import * as THREE from 'three';
+        import { TWEEN } from 'three/addons/libs/tween.module.min.js';
+        import { TrackballControls } from 'three/addons/controls/TrackballControls.js';
+        import { CSS3DRenderer, CSS3DObject } from 'three/addons/renderers/CSS3DRenderer.js';
+
+        let camera, scene, renderer;
+        let controls;
+
+        const objects = [];
+        const targets = { table: [], sphere: [], helix: [], grid: [] };
+
+        init();
+        animate();
+
+        function init() {
+            camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.z = 3000;
+
+            scene = new THREE.Scene();
+
+            for (let index = 0; index < 15; index++) {
+                const element = document.createElement('div');
+                element.className = 'element';
+                element.style.width = '50%';
+                element.style.height = '70%';
+                element.style.padding = '1%';
+                element.style.backgroundColor = 'rgba(0,127,127,' + (Math.random() * 0.5 + 0.25) + ')';
+
+                const iframe = document.createElement('iframe');
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.allowFullscreen = true;
+                iframe.src = "../gijiroku/sample.html";
+                iframe.position = "absolute";
+
+                const div = document.createElement('div');
+                div.className = 'element';
+                div.style.width = '10%';
+                div.style.height = 'auto';
+                div.style.position = 'absolute';
+                div.style.right = '1px';
+                div.style.bottom = '1px';
+                div.style.aspectRatio = "1 / 1"
+
+                const a = document.createElement('a');
+                a.style.content = "";
+                a.style.display = "inline-block";
+                a.style.width= "100%";
+                a.style.height = "100%";
+                a.style.margin = "0 0 0 0";
+                a.style.background = 'url(fullscreen.png) no-repeat';
+                a.style.backgroundSize = "contain";
+                a.style.verticalAlign = "middle";
+                div.appendChild(a);
+
+
+                 // ------------------------------------------------------------
+                // リクエストボタンをクリックすると実行されるイベント
+                // ------------------------------------------------------------
+                let click_count = 0;
+                div.addEventListener("click", function (e) {
+                    if (click_count % 2 == 0) {
+                        // エレメントをフルスクリーン表示する
+                        ElementRequestFullscreen(element);
+                        //a.style.background = 'url(resize.png) no-repeat';
+                    }else{
+                        // フルスクリーンを終了する
+                        DocumentExitFullscreen(document);
+                        //a.style.background = 'url(fullscreen.png) no-repeat';
+                    }
+                    click_count++;
+                    console.log(click_count);
+                });
+
+
+
+                element.appendChild(div);
+
+                element.appendChild(iframe);
+
+                const objectCSS = new CSS3DObject(element);
+                objectCSS.position.x = Math.random() * 4000 - 2000;
+                objectCSS.position.y = Math.random() * 4000 - 2000;
+                objectCSS.position.z = Math.random() * 4000 - 2000;
+                scene.add(objectCSS);
+
+                let myConfObj = { iframeMouseOver: false }
+
+                window.addEventListener('blur', function () {
+                    if (myConfObj.iframeMouseOver) {
+                        onDocumentMouseDown();
+                    }
+                });
+
+                iframe.addEventListener('mouseover', function () {
+                    myConfObj.iframeMouseOver = true;
+                });
+                element.addEventListener('mouseout', function () {
+                    myConfObj.iframeMouseOver = false;
+                    window.focus();
+                });
+
+                function onDocumentMouseDown() {
+                    let targetDirection = new THREE.Vector3();
+                    objectCSS.getWorldDirection(targetDirection)
+                    const duration = 1000
+
+                    // オブジェクトの姿勢と同機させる
+                    new TWEEN.Tween(camera.up)
+                        .to({
+                            x: objectCSS.up.x,
+                            y: objectCSS.up.y,
+                            z: objectCSS.up.z
+                        }, duration)
+                        .easing(TWEEN.Easing.Exponential.InOut)
+                        .start();
+
+                    //オブジェクトの正面にカメラを配置
+                    new TWEEN.Tween(controls.target)
+                        .to({
+                            x: objectCSS.position.x,
+                            y: objectCSS.position.y,
+                            z: objectCSS.position.z
+                        }, duration)
+                        .easing(TWEEN.Easing.Exponential.InOut)
+                        .start();
+
+                    //カメラの代替の位置
+                    new TWEEN.Tween(camera.position)
+                        .to({
+                            x: objectCSS.position.x + targetDirection.x * 1000,
+                            y: objectCSS.position.y + targetDirection.y * 1000,
+                            z: objectCSS.position.z + targetDirection.z * 1000
+                        }, duration)
+                        .easing(TWEEN.Easing.Exponential.InOut)
+                        .start();
+                };
+                objects.push(objectCSS);
+            }
+
+            // sphere
+            const vector = new THREE.Vector3();
+            for (let i = 0, l = objects.length; i < l; i++) {
+
+                const phi = Math.acos(- 1 + (2 * i) / l);
+                const theta = Math.sqrt(l * Math.PI) * phi;
+
+                const object = new THREE.Object3D();
+
+                object.position.setFromSphericalCoords(1200, phi, theta);
+
+                vector.copy(object.position).multiplyScalar(2);
+
+                object.lookAt(vector);
+
+                targets.sphere.push(object);
+            }
+
+            // helix
+            for (let i = 0, l = objects.length; i < l; i++) {
+
+                const theta = i * 0.6 + Math.PI;
+                const y = - (i * 50) + 500;
+
+                const object = new THREE.Object3D();
+
+                object.position.setFromCylindricalCoords(1300, theta, y);
+
+                vector.x = object.position.x * 2;
+                vector.y = object.position.y;
+                vector.z = object.position.z * 2;
+
+                object.lookAt(vector);
+
+                targets.helix.push(object);
+
+            }
+
+            // grid
+            for (let i = 0; i < objects.length; i++) {
+
+                const object = new THREE.Object3D();
+
+                object.position.x = ((i % 5) * 500) - 1300;
+                object.position.y = (- (Math.floor(i / 5) % 5) * 400) + 1100;
+                object.position.z = (Math.floor(i / 25)) * 1000 - 2000;
+
+                targets.grid.push(object);
+
+            }
+
+            //
+            renderer = new CSS3DRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('container').appendChild(renderer.domElement);
+
+            //
+            controls = new TrackballControls(camera, renderer.domElement);
+            controls.minDistance = 500;
+            controls.maxDistance = 6000;
+            controls.addEventListener('change', render);
+
+            const buttonSphere = document.getElementById('sphere');
+            buttonSphere.addEventListener('click', function () {
+                transform(targets.sphere, 2000);
+            });
+
+            const buttonHelix = document.getElementById('helix');
+            buttonHelix.addEventListener('click', function () {
+                transform(targets.helix, 2000);
+            });
+
+            const buttonGrid = document.getElementById('grid');
+            buttonGrid.addEventListener('click', function () {
+                transform(targets.grid, 2000);
+            });
+            transform(targets.helix, 2000);
+
+            //
+            window.addEventListener('resize', onWindowResize);
+
+
+            window.addEventListener('wheel', function () {
+                console.log('HHH');
+            });
+
+
+
+            // ------------------------------------------------------------
+            // エレメントをフルスクリーン表示する関数
+            // ------------------------------------------------------------
+            function ElementRequestFullscreen(element) {
+                var list = [
+                    "requestFullscreen",
+                    "webkitRequestFullScreen",
+                    "mozRequestFullScreen",
+                    "msRequestFullscreen"
+                ];
+                var i;
+                var num = list.length;
+                for (i = 0; i < num; i++) {
+                    if (element[list[i]]) {
+                        element[list[i]]();
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            // ------------------------------------------------------------
+            // フルスクリーンを終了する関数
+            // ------------------------------------------------------------
+            function DocumentExitFullscreen(document_obj) {
+                var list = [
+                    "exitFullscreen",
+                    "webkitExitFullscreen",
+                    "mozCancelFullScreen",
+                    "msExitFullscreen"
+                ];
+                var i;
+                var num = list.length;
+                for (i = 0; i < num; i++) {
+                    if (document_obj[list[i]]) {
+                        document_obj[list[i]]();
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+        }
+
+        function transform(targets, duration) {
+
+            TWEEN.removeAll();
+
+            for (let i = 0; i < objects.length; i++) {
+                const object = objects[i];
+                const target = targets[i];
+
+                new TWEEN.Tween(object.position)
+                    .to({ x: target.position.x, y: target.position.y, z: target.position.z }, Math.random() * duration + duration)
+                    .easing(TWEEN.Easing.Exponential.InOut)
+                    .start();
+
+                new TWEEN.Tween(object.rotation)
+                    .to({ x: target.rotation.x, y: target.rotation.y, z: target.rotation.z }, Math.random() * duration + duration)
+                    .easing(TWEEN.Easing.Exponential.InOut)
+                    .start();
+            }
+            new TWEEN.Tween(this)
+                .to({}, duration * 2)
+                .onUpdate(render)
+                .start();
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            render();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            TWEEN.update();
+            controls.update();
+        }
+
+        function render() {
+            renderer.render(scene, camera);
+        }
+
+
+    </script>
+</body>
+</html>
