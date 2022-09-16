@@ -2,6 +2,11 @@ body {
     background-color: black;
 }
 
+ /*スクロールバーを非表示Google Chrome、Safariへの対応*/
+ body::-webkit-scrollbar {
+     display: none;
+ }
+
 body>div>p {
     text-align: center;
     color: white;

@@ -158,8 +158,10 @@
                 div.style.width = '10%';
                 div.style.height = 'auto';
                 div.style.position = 'absolute';
-                div.style.right = '1px';
-                div.style.bottom = '1px';
+                div.style.right = '0px';
+                div.style.bottom = '0px';
+                div.style.marginRight = '1%';
+                div.style.marginBottom = '1%';
                 div.style.aspectRatio = "1 / 1"
 
                 const a = document.createElement('a');
@@ -174,10 +176,11 @@
                 div.appendChild(a);
 
                  // ------------------------------------------------------------
-                // リクエストボタンをクリックすると実行されるイベント
+                // 画面リサイズボタンをクリックすると実行されるイベント
                 // ------------------------------------------------------------
                 let click_count = 0;
                 div.addEventListener(clickEventType, function (e) {
+                    //alert(clickEventType)
                     if (click_count % 2 == 0) {
                         // エレメントをフルスクリーン表示する
                         ElementRequestFullscreen(element);
@@ -201,14 +204,10 @@
                 objectCSS.position.z = Math.random() * 4000 - 2000;
                 scene.add(objectCSS);
 
+                //クリックしたらズーム(方法1)
                 let myConfObj = { iframeMouseOver: false }
 
                 window.addEventListener('blur', function () {
-                    if (myConfObj.iframeMouseOver) {
-                        onDocumentMouseDown();
-                    }
-                });
-                element.addEventListener(hoverEventType, function () {
                     if (myConfObj.iframeMouseOver) {
                         onDocumentMouseDown();
                     }
@@ -217,9 +216,15 @@
                 iframe.addEventListener('mouseover', function () {
                     myConfObj.iframeMouseOver = true;
                 });
-                element.addEventListener('mouseout', function () {
+                iframe.addEventListener('mouseout', function () {
                     myConfObj.iframeMouseOver = false;
                     window.focus();
+                });
+
+                //クリックしたらズーム(方法2)
+                iframe.addEventListener(hoverEventType, function () {
+                    alert('in hover event');
+                    onDocumentMouseDown();
                 });
 
                 function onDocumentMouseDown() {
@@ -339,6 +344,7 @@
                 transform(targets.grid, 2000);
                 camera_init_grid()
             });
+
             transform(targets.helix, 2000);
             camera_init_herix(2000);
 
@@ -350,14 +356,14 @@
             // エレメントをフルスクリーン表示する関数
             // ------------------------------------------------------------
             function ElementRequestFullscreen(element) {
-                var list = [
+                const list = [
                     "requestFullscreen",
                     "webkitRequestFullScreen",
                     "mozRequestFullScreen",
                     "msRequestFullscreen"
                 ];
-                var i;
-                var num = list.length;
+                let i;
+                const num = list.length;
                 for (i = 0; i < num; i++) {
                     if (element[list[i]]) {
                         element[list[i]]();
@@ -371,14 +377,14 @@
             // フルスクリーンを終了する関数
             // ------------------------------------------------------------
             function DocumentExitFullscreen(document_obj) {
-                var list = [
+                const list = [
                     "exitFullscreen",
                     "webkitExitFullscreen",
                     "mozCancelFullScreen",
                     "msExitFullscreen"
                 ];
-                var i;
-                var num = list.length;
+                let i;
+                const num = list.length;
                 for (i = 0; i < num; i++) {
                     if (document_obj[list[i]]) {
                         document_obj[list[i]]();
@@ -386,6 +392,8 @@
                     }
                 }
                 return false;
+
+
             }
         }
 
@@ -492,9 +500,16 @@
                     }, duration)
                     .easing(TWEEN.Easing.Exponential.InOut)
                     .start();
+
+                new TWEEN.Tween(camera.up)
+                .to({
+                    x: 0,
+                    y: 1,
+                    z: 0
+                }, duration)
+                .easing(TWEEN.Easing.Quadratic.Out)
+                .start();
             }
-
-
     </script>
 
 </body>
