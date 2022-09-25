@@ -4,7 +4,7 @@ const ThreadSchema = new mongoose.Schema({
     htmlName: {
         type: String,
         required: true,
-        maxlength: 20,
+        maxlength: 30,
     },
     imgName: {
         type: String,

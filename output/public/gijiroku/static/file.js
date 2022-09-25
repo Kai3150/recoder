@@ -55,14 +55,14 @@ dropZone.addEventListener('drop', function(e) {
         };
         //previewFile終わり
         imgName = file.name;
-        imgType = "bansho";
     }
 }, false);
 
 
 formDOM.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    imgType = "bansho";
 
+    e.preventDefault();
     const files = fileInput.files;
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {
@@ -79,7 +79,8 @@ formDOM.addEventListener("submit", async (e) => {
         }),
         body: formData,
     }
-    fetch(action, options).then((e) => {
+    formDOM.reset();
+    await fetch(action, options).then((e) => {
         if (e.status === 200) {
             alert("保存しました。")
             return
@@ -97,7 +98,7 @@ function previewFile(file) {
     fr.onload = function() {
         let img = document.createElement('img');
         img.setAttribute('src', fr.result);
-        img.style.width = ''
+        //img.style.width = ''
         preview.appendChild(img);
     };
 }
@@ -111,7 +112,6 @@ const getImages = async () => {
                 htmlName: window.location.href.split('/').pop()
             }
         });
-
 
         let { data } = imgs;
         //出力
@@ -150,6 +150,4 @@ const getImages2 = async () => {
         });
     });
 };
-
-
 getImages2();
