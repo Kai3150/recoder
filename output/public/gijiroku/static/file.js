@@ -24,7 +24,7 @@ dropZone.addEventListener('dragleave', function(e) {
     console.log('in the leave');
 }, false);
 
-fileInput.addEventListener('change', function () {
+fileInput.addEventListener('change', function (e) {
     console.log('in  the change');
     e.preventDefault();
     previewFile(this.files[0]);
@@ -45,7 +45,6 @@ dropZone.addEventListener('drop', function(e) {
 
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
-
         //previewFile(file)//の置き換え
         let fr = new FileReader();
         fr.readAsDataURL(file);
@@ -56,7 +55,6 @@ dropZone.addEventListener('drop', function(e) {
             preview.appendChild(img);
         };
         //previewFile終わり
-
         imgName = file.name;
         imgType = "bansho";
     }

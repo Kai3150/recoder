@@ -1,5 +1,5 @@
 body {
-    background-color: black;
+    background-color: rgb(96, 186, 238);
 }
 
  /*スクロールバーを非表示Google Chrome、Safariへの対応*/
@@ -8,19 +8,32 @@ body {
  }
 
 body>div>p {
+    color: rgb(0, 0, 0);
+    background-color: white;
+    border-radius: 5px;
     text-align: center;
-    color: white;
 }
 
-h1,
-h3 {
+h1 {
     text-align: center;
-    color: orange;
+    color: white;
+    -webkit-text-stroke: 1px black;
+    font-size: 50px;
 }
 
 h2 {
     text-align: center;
     color: red;
+}
+
+h3 {
+    width: fit-content;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    border-radius: 30px;
+    font-size: 30px;
+    padding: 10px;
+    margin: 0px auto;
 }
 
 p {

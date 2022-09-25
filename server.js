@@ -36,9 +36,12 @@ app.get('/index.html', function (req, res, next) {
     res.sendFile(path.join(__dirname, 'output/public/top/index.html'));
 })
 
+app.get('/slide.html', function (req, res, next) {
+    res.sendFile(path.join(__dirname, 'output/public/top/slide.html'));
+})
+
 // get imgメソッド
 app.get("/api/files", async (req, res) => {
-
     try {
         const existfiles = [];
         fs.readdir('output/public/gijiroku', (err, files) => {

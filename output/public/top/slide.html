@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>議事録スマホ用</title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/reveal.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/css/theme/black.min.css">
+    <style>
+        .slides {
+            width: 100% !important;
+            margin: 0 !important;
+        }
+
+        iframe{
+            width: 90vh;
+            height: 90vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides" id="slide">
+            <section>
+                <h1>宮崎ゼミ議事録</h1>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0/lib/js/head.min.js"></script>
+    <script type="text/javascript" src='/top/static/reveal.js'></script>
+
+    <a href="http://" target="_blank" rel="noopener noreferrer"></a>
+    <script defer type="module">
+
+        await init();
+        async function init() {
+            const files = await fetch("/api/files", { method: 'GET' });
+            const json = await files.json();
+            console.log(json);
+            const slides = document.getElementById('slide')
+
+            for (const key in json) { // 日付でループ
+                const element = document.createElement('section');
+                const iframe =document.createElement('iframe');
+                iframe.setAttribute('src', '/gijiroku/' + json[key]);
+                element.appendChild(iframe);
+                slides.appendChild(element);
+            }
+        }
+    </script>
+
+    <script>
+        Reveal.initialize({
+            width: '100%',
+            height: '100%',
+            controls: true,
+            progress: true,
+            history: true,
+            center: false,
+            mouseWheel: true,
+            theme: Reveal.getQueryHash().theme,
+            transition: Reveal.getQueryHash().transition || 'default',
+        });
+    </script>
+</body>
+</html>

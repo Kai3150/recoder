@@ -3,7 +3,8 @@
 <head>
     <title>three.js css3d - periodic table</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"> -->
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link type="text/css" rel="stylesheet" href="top/static/main.css">
     <style>
         a {
@@ -112,9 +113,10 @@
 
         await init();
         animate();
-        alert('ggg');
 
         async function init() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
             //レスポンシブ用
             let isScrolling = 0;
             let timeoutId;
@@ -184,11 +186,12 @@
                     //alert(clickEventType)
                     if (click_count % 2 == 0) {
                         // エレメントをフルスクリーン表示する
-                        ElementRequestFullscreen(element);
+                        ElementRequestFullscreen2(element);
                         //a.style.background = 'url(resize.png) no-repeat';
                     }else{
                         // フルスクリーンを終了する
-                        DocumentExitFullscreen(document);
+                        //DocumentExitFullscreen(document);
+                        DocumentExitFullscreen2(element);
                         //a.style.background = 'url(fullscreen.png) no-repeat';
                     }
                     click_count++;
@@ -373,7 +376,11 @@
                 }
                 return false;
             }
-
+            function ElementRequestFullscreen2(element) {
+                element.style.width = window.innerWidth + 'px';
+                element.style.height = window.innerHeight + 'px';
+                return true;
+            }
             // ------------------------------------------------------------
             // フルスクリーンを終了する関数
             // ------------------------------------------------------------
@@ -393,8 +400,11 @@
                     }
                 }
                 return false;
-
-
+            }
+            function DocumentExitFullscreen2(document_obj) {
+                document_obj.style.width = '50%';
+                document_obj.style.height = '70%';
+                return true;
             }
         }
 
