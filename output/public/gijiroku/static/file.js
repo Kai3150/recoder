@@ -28,7 +28,6 @@ fileInput.addEventListener('change', function (e) {
     console.log('in  the change');
     e.preventDefault();
     previewFile(this.files[0]);
-    console.log(files);
 });
 
 dropZone.addEventListener('drop', function(e) {

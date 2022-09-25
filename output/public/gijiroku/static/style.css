@@ -24,6 +24,7 @@ h1 {
 h2 {
     text-align: center;
     color: red;
+    visibility: hidden;  /* 名前の登録ができたら消す */
 }
 
 h3 {
@@ -47,4 +48,11 @@ p {
 
 .more {
     background-color: green;
+}
+#preview{
+    text-align: center;
+}
+#preview img{
+    max-width: 100%;
+    max-height: 40vh;
 }

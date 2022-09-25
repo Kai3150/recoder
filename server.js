@@ -12,18 +12,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const fs = require('fs');
 
-
-
 mongoose.connect("mongodb+srv://kai:Kkkh3150@cluster0.4mb3bi1.mongodb.net/?retryWrites=true&w=majority")
     .then(() => console.log('DB connected'))
     .catch((err) => console.log(err));
-
 
 app.get("/api/v1/imgs", async (req, res) => {
     try {
         const imgs = await Thread.find({ htmlName: req.headers.htmlname });
         res.status(200).json(imgs);
     } catch (error) {
+        console.log('in the /api/v1/imgs error');
         console.log(error);
     }
 })
@@ -50,7 +48,6 @@ app.get("/api/files", async (req, res) => {
             });
             res.json({ ...existfiles });
         });
-
     } catch (error) {
         console.log('error');
     }
@@ -82,6 +79,7 @@ app.post('/upload', upload.array('files'), async (req, res, next) => {
         console.log('new create');
     } catch (error) {
         res.status(200).json({});
+        console.log('in the /upload error');
         console.log(error);
     }
 })
