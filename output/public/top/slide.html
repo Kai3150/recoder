@@ -49,6 +49,9 @@
                 const element = document.createElement('section');
                 const iframe =document.createElement('iframe');
                 iframe.setAttribute('src', '/gijiroku/' + json[key]);
+                iframe.addEventListener('click', function () {
+                    iframe.focus();
+                })
                 element.appendChild(iframe);
                 slides.appendChild(element);
             }
