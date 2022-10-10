@@ -48,6 +48,7 @@ app.get("/api/files", async (req, res) => {
     try {
         const existfiles = [];
         fs.readdir('output/public/gijiroku', (err, files) => {
+            files.reverse()
             files.forEach(file => {
                 if (file.includes('.html')) { existfiles.push(file) }
             });

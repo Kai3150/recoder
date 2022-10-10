@@ -43,8 +43,7 @@
         async function init() {
             const files = await fetch("/api/files", { method: 'GET' });
             const json = await files.json();
-            console.log(json);
-            const slides = document.getElementById('slide')
+            const slides = document.getElementById('slide');
 
             for (const key in json) { // 日付でループ
                 const element = document.createElement('section');
