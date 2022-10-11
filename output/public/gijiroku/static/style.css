@@ -2,10 +2,10 @@ body {
     background-color: rgb(96, 186, 238);
 }
 
- /*スクロールバーを非表示Google Chrome、Safariへの対応*/
+ /* スクロールバーを非表示Google Chrome、Safariへの対応
  body::-webkit-scrollbar {
      display: none;
- }
+ } */
 
 body>div>p {
     color: rgb(0, 0, 0);
