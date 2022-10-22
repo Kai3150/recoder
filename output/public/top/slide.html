@@ -109,8 +109,11 @@
             transition: Reveal.getQueryHash().transition || 'default',
         });
 
-
-
+        //自動でスライド
+        window.setTimeout(slide, 1000);
+        function slide(params) {
+            Reveal.right()
+        }
     </script>
 </body>
 </html>
