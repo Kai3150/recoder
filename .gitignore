@@ -1,9 +1,8 @@
 .DS_Store
-*.mp3
+output?.mp3
 *.mp4
-word2vec.*
-model.vec
+model
 env
 .ipynb_checkpoints
 wikipedia-preview
-python
+__pycache__

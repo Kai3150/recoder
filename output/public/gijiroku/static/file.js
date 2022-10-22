@@ -105,29 +105,6 @@ function previewFile(file) {
 
 // htmlファイルの名前 -> そのファイルのimgの名前
 const getImages = async () => {
-    try {
-        let imgs = await axios.get("/api/v1/imgs", {
-            params: {
-                // ファイル名をつける
-                htmlName: window.location.href.split('/').pop()
-            }
-        });
-
-        let { data } = imgs;
-        //出力
-        imgs = data.map((img) => {
-                const { htmlName, imgName, imgType } = img;
-                return `<img src="/uploads/${imgName}" >`;
-            })
-            .join("");
-        //挿入
-        preview.innerHTML = imgs;
-    } catch (err) {
-        console.log(err);
-    }
-};
-
-const getImages2 = async () => {
     const action = formDOM.getAttribute("action")
     const options = {
         method: 'GET',
@@ -150,14 +127,11 @@ const getImages2 = async () => {
         });
     });
 };
-getImages2();
-
+getImages();
 
 
 
 //iframe のフォーカスとブラーの調整
-
-
 // フォーカスされたかどうかで枠線の色を変える
 function ifrm_focus() {
     document.body.focus();

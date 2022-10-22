@@ -43,6 +43,10 @@ app.get('/slide.html', function (req, res, next) {
     res.sendFile(path.join(__dirname, 'output/public/top/slide.html'));
 })
 
+app.get('output.mp3', function (req, res, next) {
+    res.sendFile(path.join(__dirname, 'python/audio/output.mp3'));
+})
+
 // get imgメソッド
 app.get("/api/files", async (req, res) => {
     try {
