@@ -135,12 +135,12 @@ getImages();
 // フォーカスされたかどうかで枠線の色を変える
 function ifrm_focus() {
     document.body.focus();
-    document.body.style = "outline: 2px solid red";
+    //document.body.style = "outline: 2px solid red";
 }
 
 function ifrm_blur() {
     document.body.blur();
-    document.body.style = "outline: 2px solid gray";
+    //document.body.style = "outline: 2px solid gray";
 }
 
 document.addEventListener("focus", ifrm_focus, true);

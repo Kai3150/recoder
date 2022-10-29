@@ -501,7 +501,7 @@ def text_merge(p_text_dict):
     return s_text_dict
 
 def main():
-    text_dict = read_clova_txt('text/output.txt')
+    text_dict = read_clova_txt('text/output-20221028.txt')
     # dictional = read_sloos_csv('text/sloos_sample.csv')
 
     # #グーグルの文字起こしデータ
@@ -658,6 +658,7 @@ def main():
         <meta charset="UTF-8">
         <title>{title}</title>
         <link rel="stylesheet" href="static/style.css">
+        <link rel="stylesheet" href="static/simple.css">
     </head>
         <body>
             <h1>{date}</h1>

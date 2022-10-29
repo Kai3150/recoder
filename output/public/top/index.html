@@ -139,7 +139,6 @@
             const files =await fetch("/api/files", { method: 'GET' });
             const json = await files.json();
 
-            for (let index = 0; index < 2; index++) { //かさまし
             for (const item in json) {
                 const element = document.createElement('div');
                 element.className = 'element';
@@ -268,7 +267,7 @@
                 };
                 objects.push(objectCSS);
             }
-            }
+
             // sphere
             const vector = new THREE.Vector3();
             for (let i = 0, l = objects.length; i < l; i++) {

@@ -1,0 +1,17 @@
+body{
+    background-color: white;
+}
+
+[data-wikipedia-preview] {
+    background-color: cadetblue;
+    font-size: large;
+}
+
+h1{
+    color: black;
+}
+
+
+body>div>p{
+    background-color: lightyellow;
+}

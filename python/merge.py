@@ -3,7 +3,8 @@ import glob
 import os
 
 def merge():
-    file_list = glob.glob("../output/public/gijiroku/audio/output?.mp3")
+    file_list = sorted(glob.glob("../output/public/gijiroku/audio/output?.mp3"))
+    
     sound_list = []
     for mp3_file in file_list:
         # 音声ファイルの読み込み
@@ -21,3 +22,5 @@ def merge():
 
     # 保存
     merged_sound.export("../output/public/gijiroku/audio/output.mp3", format="mp3")
+
+merge()

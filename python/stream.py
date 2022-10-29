@@ -77,7 +77,7 @@ class AudioLight():
 
 
     def open_file(self):
-        self.wf = wave.open("audio/output" + str(self.file_count) + ".wav", "wb")
+        self.wf = wave.open("../output/public/gijiroku/audio/output" + str(self.file_count) + ".wav", "wb")
         print("start output"+str(self.file_count)+".wav")
         self.wf.setnchannels(self.channels)
         self.wf.setsampwidth(2)
@@ -92,7 +92,7 @@ class AudioLight():
 
 if __name__ == "__main__":
     #前のファイルを削除
-    dir = 'audio'
+    dir = '../output/public/gijiroku/audio'
     for f in os.listdir(dir):
         os.remove(os.path.join(dir, f))
 

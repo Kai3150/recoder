@@ -1,0 +1,21 @@
+body {
+    background-color: black;
+    color: greenyellow;
+}
+
+[data-wikipedia-preview] {
+    background-color: white;
+    color: black;
+    /* font-size: x-large; */
+}
+
+h1 {
+    color: red;
+}
+
+
+body>div>p {
+    background-color: unset;
+    color: greenyellow;
+    border: dashed 2px #696969;
+}
