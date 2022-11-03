@@ -24,13 +24,12 @@ h1 {
 h2 {
     text-align: center;
     color: red;
-    display: none;  /* 名前の登録ができたら消す */
+    /* display: none;  名前の登録ができたら消す */
 }
 
 h3 {
     width: fit-content;
     text-align: center;
-    color: rgb(0, 0, 0);
     border-radius: 30px;
     font-size: 30px;
     padding: 10px;
@@ -58,3 +57,7 @@ p {
  [data-wikipedia-preview] {
     background-color: greenyellow;
  }
+
+.long{
+    border: solid 3px black;
+}

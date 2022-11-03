@@ -145,3 +145,27 @@ function ifrm_blur() {
 
 document.addEventListener("focus", ifrm_focus, true);
 document.addEventListener("blur", ifrm_blur, true);
+
+
+
+
+const wikis = document.getElementsByClassName('wiki');
+for (let i = 0; i < wikis.length; i++) {
+    const element = wikis[i];
+    element.classList.add('wmf-wp-with-preview');
+    element.setAttribute('data-wp-title', element.innerHTML);
+    element.setAttribute('data-wikipedia-preview', '');
+}
+
+const audio = document.getElementById('audio');
+
+const divs = document.getElementsByClassName('confirm_value');
+for (let i = 0; i < divs.length; i++) {
+    const div = divs[i];
+    div.addEventListener('click', function (e) {
+        console.log(div.getAttribute('time'))
+        audio.currentTime = div.getAttribute('time');
+        audio.play()
+    }, false);
+
+}

@@ -596,10 +596,11 @@ def main():
     key_text_dict = {}
     ss_text_dict = {}
     for key, value in s_text_dict.items():
-        count = len(value.split('。'))
+        count = len(value.split('。')) #count = パラグラフ内の文数
 
-        value = summarize(value, round(count/5))  # 20%のこし
-        if value == '':
+        value = summarize(value, round(count/4))  # 25%のこし
+
+        if len(value) < 30: #30文字以下のパラグラフは消去
             continue
 
         #長すぎる文章はClick to see more
@@ -629,15 +630,20 @@ def main():
             <div class="confirm_value">
                 <p>{value}</p>
             </div>'''.format(value=value)
+        # else:
+        #     div = '''
+        #     <div class="confirm_value" onclick="obj=document.getElementById('{key}').style; obj.display=(obj.display=='none')?'block':'none';">
+        #         <p>{confirm_value}</p>
+        #         <p class='see'>クリックして原文を表示</p>
+        #     </div>
+        #     <div class="more" id="{key}" style="display:none;clear:both;">
+        #         <p>{value}</p>
+        #     </div>'''.format(key=key, confirm_value=confirm_value, value=value)
         else:
             div = '''
-            <div class="confirm_value" onclick="obj=document.getElementById('{key}').style; obj.display=(obj.display=='none')?'block':'none';">
-                <p>{confirm_value}</p>
-                <p class='see'>クリックして原文を表示</p>
-            </div>
-            <div class="more" id="{key}" style="display:none;clear:both;">
+            <div class="confirm_value long" id="{key}" >
                 <p>{value}</p>
-            </div>'''.format(key=key, confirm_value=confirm_value, value=value)
+            </div>'''.format(key=key, value=value)
 
         ss_text_dict[key] = (p_key_word, div)
 
